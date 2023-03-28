@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
 
 import '../../blocs/application/application_cubit.dart';
 
@@ -31,6 +32,7 @@ class DIManager {
     /// Repos --------------------------------------------------------------
 
     /// BLOCs
+    _injectDep(ChatCubit());
   }
 
   static T _injectDep<T extends Object>(T dependency) {

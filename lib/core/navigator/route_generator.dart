@@ -32,7 +32,7 @@ class RouteGenerator {
   static Widget getPage(RouteSettings settings, args) {
     switch (settings.name) {
       case ChatPage.routeName:
-        return const ChatPage();
+        return ChatPage();
       default:
         // settings = settings.copyWith(name: DefaultRoute.routeName);
         return const DefaultRoute();

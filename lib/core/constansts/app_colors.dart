@@ -7,7 +7,7 @@ import '../../blocs/application/application_cubit.dart';
 class AppColorsController {
   AppColorsController();
 
-  final Rx<Color?> _primaryColor = const Color(0xDDD42B1E).obs;
+  final Rx<Color?> _primaryColor = const Color(0xff2072FF).obs;
   String _primaryColorStr = "#EE3E43";
 
   Color get primaryColor => _primaryColor.value ?? defaultPrimaryColor;
