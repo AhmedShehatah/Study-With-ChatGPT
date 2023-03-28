@@ -7,4 +7,6 @@ class AppConsts {
   static const LANG_AR = 'ar';
   static const LANG_EN = 'en';
   static const LANG_DEFAULT = 'en';
+  static const chatGPTToken =
+      "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";
 }

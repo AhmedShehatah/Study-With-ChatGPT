@@ -1,12 +1,15 @@
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
+import 'package:study_assistant_ai/data/sources/chatpgt_remote_data_source.dart';
+import 'package:study_assistant_ai/repos/chatgpt_repo.dart';
 
 import '../../blocs/application/application_cubit.dart';
 
 import '../constansts/app_colors.dart';
 import '../navigator/app_navigator.dart';
 import '../shared_prefs/shared_prefs.dart';
+import 'module/network_module.dart';
 
 final getIt = GetIt.instance;
 
@@ -18,6 +21,8 @@ class DIManager {
     _injectDep(
       AppNavigator(),
     );
+    _injectDep(NetowrkModule.provideDio());
+
     _injectDep(
       AppColorsController(),
     );
@@ -28,11 +33,13 @@ class DIManager {
     // firebase
 
     /// Remotes --------------------------------------------------------------
+    _injectDep<IChatGPTRemoteDateSource>(const ChatGPTRemoteDataSource());
 
     /// Repos --------------------------------------------------------------
+    _injectDep<IChatGPTRepo>(ChatGPTRepo(findDep<IChatGPTRemoteDateSource>()));
 
     /// BLOCs
-    _injectDep(ChatCubit());
+    _injectDep(ChatCubit(findDep<IChatGPTRepo>()));
   }
 
   static T _injectDep<T extends Object>(T dependency) {

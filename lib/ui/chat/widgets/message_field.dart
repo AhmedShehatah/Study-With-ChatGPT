@@ -44,6 +44,8 @@ class MessageField extends StatelessWidget {
                   text: controller.text,
                   isSentByMe: true,
                   date: DateTime.now()));
+              DIManager.findDep<ChatCubit>().createCompletion(
+                  model: "text-davinci-003", prompt: controller.text);
               controller.clear();
             },
           ),
