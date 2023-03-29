@@ -2,91 +2,86 @@ class CompletionModel {
   String? id;
   String? object;
   int? created;
-  String? model;
-  List<Choices>? choices;
-  Usage? usage;
+  List<CompletionChoice>? choices;
+  CompletionUsage? usage;
 
-  CompletionModel(
-      {this.id,
-      this.object,
-      this.created,
-      this.model,
-      this.choices,
-      this.usage});
+  CompletionModel({
+    this.id,
+    this.object,
+    this.created,
+    this.choices,
+    this.usage,
+  });
 
-  CompletionModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    object = json['object'];
-    created = json['created'];
-    model = json['model'];
-    if (json['choices'] != null) {
-      choices = <Choices>[];
-      json['choices'].forEach((v) {
-        choices!.add(Choices.fromJson(v));
-      });
-    }
-    usage = json['usage'] != null ? Usage.fromJson(json['usage']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['object'] = object;
-    data['created'] = created;
-    data['model'] = model;
-    if (choices != null) {
-      data['choices'] = choices!.map((v) => v.toJson()).toList();
-    }
-    if (usage != null) {
-      data['usage'] = usage!.toJson();
-    }
-    return data;
+  factory CompletionModel.fromJson(Map<String, dynamic> json) {
+    List<dynamic> choicesJson = json['choices'];
+    List<CompletionChoice>? choices;
+    choices = choicesJson
+        .map((choiceJson) => CompletionChoice.fromJson(choiceJson))
+        .toList();
+    return CompletionModel(
+      id: json['id'],
+      object: json['object'],
+      created: json['created'],
+      choices: choices,
+      usage: CompletionUsage.fromJson(json['usage']),
+    );
   }
 }
 
-class Choices {
-  String? text;
+class CompletionChoice {
   int? index;
-  int? logprobs;
+  CompletionMessage? message;
   String? finishReason;
 
-  Choices({this.text, this.index, this.logprobs, this.finishReason});
+  CompletionChoice({
+    this.index,
+    this.message,
+    this.finishReason,
+  });
 
-  Choices.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    index = json['index'];
-    logprobs = json['logprobs'];
-    finishReason = json['finish_reason'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = text;
-    data['index'] = index;
-    data['logprobs'] = logprobs;
-    data['finish_reason'] = finishReason;
-    return data;
+  factory CompletionChoice.fromJson(Map<String, dynamic> json) {
+    return CompletionChoice(
+      index: json['index'],
+      message: CompletionMessage.fromJson(json['message']),
+      finishReason: json['finish_reason'],
+    );
   }
 }
 
-class Usage {
+class CompletionMessage {
+  String? role;
+  String? content;
+
+  CompletionMessage({
+    this.role,
+    this.content,
+  });
+
+  factory CompletionMessage.fromJson(Map<String, dynamic> json) {
+    return CompletionMessage(
+      role: json['role'],
+      content: json['content'],
+    );
+  }
+}
+
+class CompletionUsage {
   int? promptTokens;
   int? completionTokens;
   int? totalTokens;
 
-  Usage({this.promptTokens, this.completionTokens, this.totalTokens});
+  CompletionUsage({
+    this.promptTokens,
+    this.completionTokens,
+    this.totalTokens,
+  });
 
-  Usage.fromJson(Map<String, dynamic> json) {
-    promptTokens = json['prompt_tokens'];
-    completionTokens = json['completion_tokens'];
-    totalTokens = json['total_tokens'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['prompt_tokens'] = promptTokens;
-    data['completion_tokens'] = completionTokens;
-    data['total_tokens'] = totalTokens;
-    return data;
+  factory CompletionUsage.fromJson(Map<String, dynamic> json) {
+    return CompletionUsage(
+      promptTokens: json['prompt_tokens'],
+      completionTokens: json['completion_tokens'],
+      totalTokens: json['total_tokens'],
+    );
   }
 }

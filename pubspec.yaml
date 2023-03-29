@@ -28,6 +28,8 @@ dependencies:
   grouped_list: ^5.1.2
   chat_gpt_sdk: ^2.0.6
   dio: ^5.1.0
+  jumping_dot: ^0.0.4
+  animated_text_kit: ^4.2.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

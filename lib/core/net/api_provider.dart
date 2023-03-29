@@ -128,19 +128,19 @@ class ApiProvider {
       if (error.type == DioErrorType.badResponse) {
         switch (error.response!.statusCode) {
           case 401:
-            return UnauthorizedError(message: error.response!.data['message']);
+            return UnauthorizedError();
           case 400:
           case 404:
-            return NotFoundError(message: error.response!.data['message']);
+            return NotFoundError();
           case 403:
           case 409:
           case 500:
-            return NetError(message: error.response!.data['message']);
+            return NetError();
           default:
-            return CustomError(message: error.response!.data['message']);
+            return CustomError();
         }
       }
-      return NetError(message: error.response!.data['message']);
+      return NetError();
     } else if (error.type == DioErrorType.connectionTimeout ||
         error.type == DioErrorType.sendTimeout ||
         error.type == DioErrorType.receiveTimeout) {

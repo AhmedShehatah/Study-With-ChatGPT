@@ -2,6 +2,7 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:study_assistant_ai/ui/drawer/drawer_header.dart';
 import '../../../../core/di/di_manager.dart';
 import '../../blocs/application/application_cubit.dart';
 import '../../blocs/application/application_state.dart';
@@ -80,14 +81,15 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
             bloc: DIManager.findDep<ApplicationCubit>(),
             builder: (context, state) {
               return AnimatedPositioned(
-                  duration: const Duration(
-                      milliseconds: DurationConsts.DEFAULT_ANIMATION_DURATION),
-                  left: !state.isHomeDrawerOpened && state.isSideDrawerShowed
-                      ? 0.0
-                      : -0.15.sw,
-                  curve: Curves.ease,
-                  top: height,
-                  child: _buildBox());
+                duration: const Duration(
+                    milliseconds: DurationConsts.DEFAULT_ANIMATION_DURATION),
+                left: !state.isHomeDrawerOpened && state.isSideDrawerShowed
+                    ? 0.0
+                    : -0.15.sw,
+                curve: Curves.ease,
+                top: height,
+                child: _buildBox(),
+              );
             },
           )
         ],
@@ -105,24 +107,13 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
   }
 
   Widget _buildBox() {
-    // return DrawerHeadWidget(
-    //   scaffoldKey: _scaffoldKey,
-    //   onDrawerOpen: (OverallDrawerTabs tab) {
-    //     if(tab == OverallDrawerTabs.Chat)
-    //       DIManager.findNavigator().pushNamed("todo");
-    //    else _openDrawer(tab);
-    //    },
-    // );
-    return Container();
+    return Center(
+      child: Text("hello"),
+    );
   }
 }
 
 enum OverallDrawerTabs {
-  Widgets,
-  Chat,
-  Notifications,
-  Settings,
-  Search,
-  Profile,
-  NONE,
+  chat,
+  flashcards,
 }

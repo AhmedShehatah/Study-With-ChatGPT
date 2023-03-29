@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:study_assistant_ai/ui/drawer/drawer_header.dart';
 
 import '../../../../core/utils/screen_utils/device_utils.dart';
 import '../../core/constansts/dimens.dart';
@@ -42,7 +43,11 @@ class OverAllDrawerWidget extends StatelessWidget {
       //   return NotificationsDrawerContent(onCloseDrawer: onCloseDrawer);
       //  case OverallDrawerTabs.Profile:
       //   return ProfileDrawerContent(onCloseDrawer: onCloseDrawer,onOpenDrawer: onOpenDrawer,);
-
+      case OverallDrawerTabs.chat:
+        return DrawerHeaderWidget(
+          onCloseDrawer: onCloseDrawer,
+          title: "chat",
+        );
       default:
         return SizedBox(
           width: ScreenHelper.width * 0.5,

@@ -18,8 +18,13 @@ class ChatGPTRemoteDataSource implements IChatGPTRemoteDateSource {
       url: AppEndpoints.completion,
       data: {
         "model": model,
-        "prompt": prompt,
-        "max_tokens": 2048,
+        "max_tokens": 100,
+        "messages": [
+          {
+            "role": "user",
+            "content": prompt,
+          }
+        ]
       },
     );
   }

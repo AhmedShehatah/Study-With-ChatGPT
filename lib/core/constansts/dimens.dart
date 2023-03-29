@@ -15,7 +15,7 @@ class Dimens {
 
   static double cardBorderRadius = 10.w;
   static double bottomSheetBorderRadius = 15.w;
-
+  static double dotsRadius = 4.r;
   static double textFormBorder = 10.w;
   static double defaultBorderRadius = 10.w;
   static double dialogBorderRadius = 15.w;
@@ -38,5 +38,5 @@ class Dimens {
   static final EdgeInsets defaultPageHorizontalPaddingSmall =
       EdgeInsets.symmetric(horizontal: ScreenHelper.fromWidth55(4.0));
 
-  static double get appbarBorderRadius => 0.0;
+  static double get appbarBorderRadius => 40.r;
 }
