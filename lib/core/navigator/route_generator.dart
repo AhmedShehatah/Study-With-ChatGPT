@@ -1,6 +1,10 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
+import 'package:study_assistant_ai/ui/intro_screen/intro_screen.dart';
+
+import '../../ui/notes/page/notes_page.dart';
+import '../../ui/notes/page/show_note.dart';
 
 class RouteGenerator {
   static Route? generateRoutes(RouteSettings settings) {
@@ -32,7 +36,13 @@ class RouteGenerator {
   static Widget getPage(RouteSettings settings, args) {
     switch (settings.name) {
       case ChatPage.routeName:
-        return ChatPage();
+        return const ChatPage();
+      case NotesPage.routeName:
+        return NotesPage();
+      case IntroScreen.routeName:
+        return const IntroScreen();
+      case ShowNote.routeName:
+        return ShowNote();
       default:
         // settings = settings.copyWith(name: DefaultRoute.routeName);
         return const DefaultRoute();

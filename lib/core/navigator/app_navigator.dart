@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 class AppNavigator {
   GlobalKey<NavigatorState> get navigationKey => Get.key;
 
-  final routs = [];
-
   Future<T?> pushNamed<T>(String routeName, {dynamic arguments}) {
     return navigationKey.currentState!
         .pushNamed<T>(routeName, arguments: arguments);
@@ -32,15 +30,7 @@ class AppNavigator {
   Future<T?> offAll<T>(String routeName, {dynamic arguments, T? result}) {
     return navigationKey.currentState!.pushNamedAndRemoveUntil<T>(
       routeName,
-          (route) => false,
+      (route) => false,
     );
-  }
-
-  Future? goRoot() {
-    return null;
-  }
-
-  Future? goLogin() {
-    return null;
   }
 }

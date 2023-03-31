@@ -7,6 +7,12 @@ import 'app_font.dart';
 import 'dimens.dart';
 
 class AppStyle {
+  static RoundedRectangleBorder appBarStyle = RoundedRectangleBorder(
+    borderRadius: BorderRadius.only(
+      bottomRight: Radius.circular(Dimens.appbarBorderRadius),
+    ),
+  );
+
   static BoxDecoration formFieldDecoration = BoxDecoration(
     borderRadius: BorderRadius.circular(Dimens.bigBorderRadius),
     boxShadow: [

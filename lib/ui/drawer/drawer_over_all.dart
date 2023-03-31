@@ -1,13 +1,19 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_header.dart';
+import 'package:study_assistant_ai/ui/notes/page/notes_page.dart';
 import '../../../../core/di/di_manager.dart';
 import '../../blocs/application/application_cubit.dart';
 import '../../blocs/application/application_state.dart';
+import '../../blocs/chat/cubit/chat_cubit.dart';
+import '../../core/constansts/app_consts.dart';
+import '../../core/constansts/dimens.dart';
 import '../../core/constansts/duration_consts.dart';
-import 'overall_drawer_widget.dart';
+import 'drawer_widget.dart';
 
 class DrawerOverAllWidget extends StatefulWidget {
   final Widget? child;
@@ -23,7 +29,7 @@ class DrawerOverAllWidget extends StatefulWidget {
 }
 
 class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
-  OverallDrawerTabs? _drawerToOpen;
+  var _drawerToOpen = OverallDrawerTabs.chat;
   double height = 0.12.sh;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -59,8 +65,8 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      drawerEnableOpenDragGesture: true,
-      drawer: OverAllDrawerWidget(
+      drawerEnableOpenDragGesture: false,
+      drawer: DrawerWidget(
         drawerTab: _drawerToOpen,
         onCloseDrawer: () {
           _scaffoldKey.currentState!.openEndDrawer();
@@ -72,26 +78,6 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
       body: Stack(
         children: [
           Container(child: widget.child),
-          BlocBuilder<ApplicationCubit, ApplicationState>(
-            buildWhen: (oldState, newState) {
-              return oldState.isHomeDrawerOpened !=
-                      newState.isHomeDrawerOpened ||
-                  oldState.isSideDrawerShowed != newState.isSideDrawerShowed;
-            },
-            bloc: DIManager.findDep<ApplicationCubit>(),
-            builder: (context, state) {
-              return AnimatedPositioned(
-                duration: const Duration(
-                    milliseconds: DurationConsts.DEFAULT_ANIMATION_DURATION),
-                left: !state.isHomeDrawerOpened && state.isSideDrawerShowed
-                    ? 0.0
-                    : -0.15.sw,
-                curve: Curves.ease,
-                top: height,
-                child: _buildBox(),
-              );
-            },
-          )
         ],
       ),
     );
@@ -104,12 +90,6 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
     });
 
     // if(!_scaffoldKey.currentState.isDrawerOpen)
-  }
-
-  Widget _buildBox() {
-    return Center(
-      child: Text("hello"),
-    );
   }
 }
 

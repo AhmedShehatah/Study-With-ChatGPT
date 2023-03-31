@@ -30,6 +30,8 @@ dependencies:
   dio: ^5.1.0
   jumping_dot: ^0.0.4
   animated_text_kit: ^4.2.2
+  introduction_screen: ^3.1.7
+  flutter_staggered_grid_view: ^0.6.2
 
 dev_dependencies:
   flutter_lints: ^2.0.0

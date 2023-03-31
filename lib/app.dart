@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:logger/logger.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
+import 'package:study_assistant_ai/ui/intro_screen/intro_screen.dart';
 
 import 'blocs/application/application_cubit.dart';
 import 'blocs/application/application_state.dart';
@@ -65,7 +66,7 @@ class _AppState extends State<App> {
                                   DIManager.findDep<AppColorsController>()
                                       .primaryColor)),
                   title: AppConsts.appName,
-                  initialRoute: ChatPage.routeName,
+                  initialRoute: IntroScreen.routeName,
                 );
               },
             );
