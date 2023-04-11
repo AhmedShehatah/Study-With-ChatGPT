@@ -21,12 +21,7 @@ class MessageWidget extends StatelessWidget {
           padding: Dimens.cardInternalPadding,
           child: (message.text == AppConsts.jumpingDot)
               ? _loadingDots()
-              : Text(
-                  message.text,
-                  style: TextStyle(
-                    color: message.isSentByMe ? Colors.white : null,
-                  ),
-                ),
+              : _messageBody(),
         ),
       ),
     );
@@ -59,5 +54,14 @@ class MessageWidget extends StatelessWidget {
         bottomRight: Radius.circular(Dimens.bigBorderRadius),
       ));
     }
+  }
+
+  Widget _messageBody() {
+    return Text(
+      message.text,
+      style: TextStyle(
+        color: message.isSentByMe ? Colors.white : null,
+      ),
+    );
   }
 }

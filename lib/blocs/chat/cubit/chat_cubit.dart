@@ -5,6 +5,7 @@ import 'package:study_assistant_ai/core/blocs/base_loading_state.dart';
 import 'package:study_assistant_ai/core/blocs/base_success_state.dart';
 import 'package:study_assistant_ai/core/constansts/app_consts.dart';
 import 'package:study_assistant_ai/models/message.dart';
+import 'package:study_assistant_ai/models/note_model.dart';
 import 'package:study_assistant_ai/repos/chatgpt_repo.dart';
 
 import '../state/chat_state.dart';
@@ -54,5 +55,9 @@ class ChatCubit extends Cubit<ChatState> {
         emit(state.copyWith(completionState: BaseFailureState(response.error)));
       }
     });
+  }
+
+  void saveToNotes(NoteModel note) {
+    _repo.saveNote(note);
   }
 }

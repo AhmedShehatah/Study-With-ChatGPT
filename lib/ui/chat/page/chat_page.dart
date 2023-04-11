@@ -9,7 +9,7 @@ import 'package:study_assistant_ai/models/message.dart';
 import 'package:study_assistant_ai/ui/chat/widgets/message_field.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:study_assistant_ai/ui/chat/widgets/message_widget.dart';
-
+import 'package:koukicons_jw/emptyTrash.dart';
 import '../../../blocs/chat/state/chat_state.dart';
 import '../../drawer/drawer_over_all.dart';
 import '../../drawer/drawer_widget.dart';
@@ -29,33 +29,32 @@ class ChatPage extends StatelessWidget {
         title: const Text(AppConsts.appName),
         actions: [
           IconButton(
-              onPressed: () {
-                showDialog(
-                    context: context,
-                    builder: (ctx) {
-                      return AlertDialog(
-                        title: const Text('Do you want to clear chat?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              DIManager.findNavigator().pop();
-                            },
-                            child: const Text("No"),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              DIManager.findDep<ChatCubit>().clearMessage();
-                              DIManager.findNavigator().pop();
-                            },
-                            child: const Text("Yes"),
-                          ),
-                        ],
-                      );
-                    });
-              },
-              icon: const Icon(
-                Icons.delete_sweep_rounded,
-              )),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return AlertDialog(
+                      title: const Text('Do you want to clear chat?'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            DIManager.findNavigator().pop();
+                          },
+                          child: const Text("No"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            DIManager.findDep<ChatCubit>().clearMessage();
+                            DIManager.findNavigator().pop();
+                          },
+                          child: const Text("Yes"),
+                        ),
+                      ],
+                    );
+                  });
+            },
+            icon: KoukiconsEmptyTrash(),
+          )
         ],
       ),
       body: Column(
@@ -67,6 +66,23 @@ class ChatPage extends StatelessWidget {
                 if (DIManager.findDep<ChatCubit>().messages.isEmpty) {
                   return const EmptyListWidget();
                 }
+                // return ListView.builder(
+                //   itemBuilder: (context, idx) {
+                //     var message = DIManager.findDep<ChatCubit>().messages[idx];
+                //     return Align(
+                //       alignment: message.isSentByMe
+                //           ? Alignment.centerRight
+                //           : Alignment.centerLeft,
+                //       child: MessageWidget(
+                //         message: message,
+                //       ),
+                //     );
+                //   },
+                //   itemCount: DIManager.findDep<ChatCubit>().messages.length,
+                //   reverse: true,
+                //   padding: Dimens.textPadding,
+                // );
+
                 return GroupedListView<Message, DateTime>(
                   reverse: true,
                   order: GroupedListOrder.DESC,

@@ -1,18 +1,11 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
-import 'package:study_assistant_ai/ui/drawer/drawer_header.dart';
-import 'package:study_assistant_ai/ui/notes/page/notes_page.dart';
+
 import '../../../../core/di/di_manager.dart';
 import '../../blocs/application/application_cubit.dart';
-import '../../blocs/application/application_state.dart';
-import '../../blocs/chat/cubit/chat_cubit.dart';
-import '../../core/constansts/app_consts.dart';
-import '../../core/constansts/dimens.dart';
-import '../../core/constansts/duration_consts.dart';
+
 import 'drawer_widget.dart';
 
 class DrawerOverAllWidget extends StatefulWidget {

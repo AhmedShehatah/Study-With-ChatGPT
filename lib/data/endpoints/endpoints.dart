@@ -3,6 +3,7 @@ class AppEndpoints {
 
   static const String baseUrl = "https://api.openai.com/v1";
 
+  // static const String baseUrl = "https://chatgpt-api.shn.hk/v1";
 // receiveTimeout
   static const Duration receiveTimeout = Duration(milliseconds: 30000);
 

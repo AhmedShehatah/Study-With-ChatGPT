@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/shared_prefs/shared_prefs.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 
@@ -18,6 +19,7 @@ class IntroScreen extends StatelessWidget {
         showSkipButton: true,
         done: const Text("Done"),
         onDone: () {
+          DIManager.findDep<SharedPrefs>().firstTime.val = false;
           DIManager.findNavigator().offAll(ChatPage.routeName);
         },
       ),

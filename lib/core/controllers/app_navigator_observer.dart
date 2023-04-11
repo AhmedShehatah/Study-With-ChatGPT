@@ -1,5 +1,6 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 
 import '../../blocs/application/application_cubit.dart';

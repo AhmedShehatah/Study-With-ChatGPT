@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
+import 'package:study_assistant_ai/core/db/hive_manager.dart';
+import 'package:study_assistant_ai/core/shared_prefs/shared_prefs.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
 import 'package:study_assistant_ai/ui/intro_screen/intro_screen.dart';
@@ -66,7 +67,9 @@ class _AppState extends State<App> {
                                   DIManager.findDep<AppColorsController>()
                                       .primaryColor)),
                   title: AppConsts.appName,
-                  initialRoute: IntroScreen.routeName,
+                  initialRoute: (DIManager.findDep<SharedPrefs>().firstTime.val)
+                      ? IntroScreen.routeName
+                      : ChatPage.routeName,
                 );
               },
             );
@@ -84,6 +87,7 @@ class _AppState extends State<App> {
 
   @override
   void dispose() {
+    HiveManager.closeHive();
     DIManager.dispose();
     super.dispose();
   }

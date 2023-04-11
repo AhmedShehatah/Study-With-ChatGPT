@@ -6,7 +6,8 @@ import 'package:study_assistant_ai/ui/drawer/drawer_header.dart';
 import 'package:study_assistant_ai/ui/notes/page/notes_page.dart';
 import '../../../../core/utils/screen_utils/device_utils.dart';
 import '../../core/constansts/dimens.dart';
-
+import 'package:koukicons_jw/phoneChat.dart';
+import 'package:koukicons_jw/notebook2.dart';
 import 'drawer_over_all.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -51,7 +52,9 @@ class DrawerWidget extends StatelessWidget {
       child: Column(
         children: [
           ListTile(
-            leading: const Icon(Icons.chat),
+            leading: KoukiconsPhoneChat(
+              height: Dimens.iconSize,
+            ),
             title: const Text('Chat'),
             selected: drawerTab == OverallDrawerTabs.chat,
             onTap: () {
@@ -61,8 +64,8 @@ class DrawerWidget extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.flash_on),
-            title: const Text('Flashcards'),
+            leading: KoukiconsNotebook2(height: Dimens.iconSize),
+            title: const Text('Notes'),
             selected: drawerTab == OverallDrawerTabs.flashcards,
             onTap: () {
               if (drawerTab == OverallDrawerTabs.flashcards) return;

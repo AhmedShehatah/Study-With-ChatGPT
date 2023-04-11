@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
 import 'package:study_assistant_ai/core/blocs/base_loading_state.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
+import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/models/message.dart';
+import 'package:study_assistant_ai/models/note_model.dart';
 
 import '../../../blocs/chat/state/chat_state.dart';
 
@@ -56,15 +59,16 @@ class MessageField extends StatelessWidget {
                 ),
                 onPressed: () {
                   if (isSending || controller.text.isEmpty) return;
-
-                  DIManager.findDep<ChatCubit>().sendMessage(
+                  final cubit = DIManager.findDep<ChatCubit>();
+                  cubit.sendMessage(
                     Message(
                       text: controller.text.trim(),
                       isSentByMe: true,
                       date: DateTime.now(),
                     ),
                   );
-                  DIManager.findDep<ChatCubit>().createCompletion(
+
+                  cubit.createCompletion(
                       model: "gpt-3.5-turbo", prompt: controller.text.trim());
                   controller.clear();
                 },

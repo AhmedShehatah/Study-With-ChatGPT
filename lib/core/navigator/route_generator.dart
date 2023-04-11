@@ -20,7 +20,7 @@ class RouteGenerator {
           animation: animation,
           fillColor: Colors.white,
           secondaryAnimation: secondaryAnimation,
-          transitionType: SharedAxisTransitionType.scaled,
+          transitionType: SharedAxisTransitionType.horizontal,
           child: child,
         );
       },
@@ -38,7 +38,7 @@ class RouteGenerator {
       case ChatPage.routeName:
         return const ChatPage();
       case NotesPage.routeName:
-        return NotesPage();
+        return const NotesPage();
       case IntroScreen.routeName:
         return const IntroScreen();
       case ShowNote.routeName:

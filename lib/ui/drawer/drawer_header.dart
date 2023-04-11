@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:study_assistant_ai/core/constansts/app_consts.dart';
 
 import '../../core/constansts/app_colors.dart';
 import '../../core/constansts/app_style.dart';
-import '../../core/constansts/dimens.dart';
+
 import '../../core/di/di_manager.dart';
 import '../../core/utils/screen_utils/device_utils.dart';
-import '../../core/utils/ui_utils/horizontal_padding.dart';
+
 import '../../core/utils/ui_utils/vertical_padding.dart';
 
 class DrawerHeaderWidget extends StatelessWidget {

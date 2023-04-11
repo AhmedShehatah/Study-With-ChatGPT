@@ -4,29 +4,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-import 'package:study_assistant_ai/core/constansts/app_style.dart';
+import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
+
 import 'package:study_assistant_ai/core/di/di_manager.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_widget.dart';
 import 'package:study_assistant_ai/ui/notes/page/show_note.dart';
 
+import '../../../models/note_model.dart';
+
 // ignore: must_be_immutable
-class NotesPage extends StatelessWidget {
-  NotesPage({Key? key}) : super(key: key);
+class NotesPage extends StatefulWidget {
+  const NotesPage({Key? key}) : super(key: key);
   static const String routeName = "/notes-page";
-  List<NoteModel> notes = [
-    NoteModel(id: 1, title: "hello", body: "bro", creationDate: DateTime.now()),
-    NoteModel(
-        id: 1,
-        title: "hello",
-        body:
-            "bro faskljfdas fdskajf aklj f aklsdfjkl dsfjakljf kdlajlkdfj kljfdaslk jfd;akljdfs lkj ldaskjlkjadsflkfdsjlkjdsfl;k jlasdfjkl adsfjlkjdsf lkjdsf adsfkljdsf lkjfdskl;a jkldasfj lk;adsfjlkdsfj ;lkj",
-        creationDate: DateTime.now()),
-    NoteModel(id: 1, title: "hello", body: "bro", creationDate: DateTime.now()),
-    NoteModel(id: 1, title: "hello", body: "bro", creationDate: DateTime.now()),
-    NoteModel(id: 1, title: "hello", body: "bro", creationDate: DateTime.now()),
-  ];
+
+  @override
+  State<NotesPage> createState() => _NotesPageState();
+}
+
+class _NotesPageState extends State<NotesPage>
+    with SingleTickerProviderStateMixin {
+  List<NoteModel> notes = [];
+
   final lightColors = [
     Colors.amber.shade300,
     Colors.lightGreen.shade300,
@@ -39,12 +39,39 @@ class NotesPage extends StatelessWidget {
     Colors.cyanAccent,
   ];
 
+  late TabController _tabs;
+  @override
+  void initState() {
+    super.initState();
+
+    _tabs = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
+    notes = DIManager.findDep<NotesCubit>().getAllNotes();
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          DIManager.findDep<NotesCubit>().saveNote(NoteModel(
+              id: 0,
+              title: "hello world",
+              body: "Yes Do it",
+              creationDate: DateTime.now()));
+          setState(() {});
+        },
+        child: const Icon(Icons.add),
+      ),
       appBar: AppBar(
         title: const Text("Notes"),
-        shape: AppStyle.appBarStyle,
+        bottom: TabBar(
+          tabs: const [
+            Tab(text: 'All'),
+            Tab(text: 'Important'),
+          ],
+          controller: _tabs,
+          indicatorColor: Colors.lightGreen,
+        ),
       ),
       drawer: const DrawerWidget(drawerTab: OverallDrawerTabs.flashcards),
       body: Container(
@@ -62,7 +89,7 @@ class NotesPage extends StatelessWidget {
                 DateFormat.yMMMd().format(notes[index].creationDate);
             Random random = Random();
             Color bg = lightColors[random.nextInt(8)];
-            return GestureDetector(
+            return InkWell(
               onTap: () {
                 DIManager.findNavigator()
                     .pushNamed(ShowNote.routeName, arguments: {
@@ -135,17 +162,4 @@ class NotesPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class NoteModel {
-  int id;
-  String title;
-  String body;
-  DateTime creationDate;
-
-  NoteModel(
-      {required this.id,
-      required this.title,
-      required this.body,
-      required this.creationDate});
 }

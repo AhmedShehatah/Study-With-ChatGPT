@@ -1,8 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
+import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
+import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/data/sources/chatpgt_remote_data_source.dart';
 import 'package:study_assistant_ai/repos/chatgpt_repo.dart';
+import 'package:study_assistant_ai/repos/notes_repo.dart';
 
 import '../../blocs/application/application_cubit.dart';
 
@@ -22,6 +25,7 @@ class DIManager {
       AppNavigator(),
     );
     _injectDep(NetowrkModule.provideDio());
+    _injectDep<IHiveManger>(HiveManager());
 
     _injectDep(
       AppColorsController(),
@@ -36,10 +40,13 @@ class DIManager {
     _injectDep<IChatGPTRemoteDateSource>(const ChatGPTRemoteDataSource());
 
     /// Repos --------------------------------------------------------------
-    _injectDep<IChatGPTRepo>(ChatGPTRepo(findDep<IChatGPTRemoteDateSource>()));
+    _injectDep<IChatGPTRepo>(ChatGPTRepo(
+        findDep<IChatGPTRemoteDateSource>(), findDep<IHiveManger>()));
+    _injectDep<INotesRepo>(NotesRepo(findDep<IHiveManger>()));
 
     /// BLOCs
     _injectDep(ChatCubit(findDep<IChatGPTRepo>()));
+    _injectDep(NotesCubit(findDep<INotesRepo>()));
   }
 
   static T _injectDep<T extends Object>(T dependency) {

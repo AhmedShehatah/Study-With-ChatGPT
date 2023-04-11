@@ -1,24 +1,20 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../core/constansts/app_colors.dart';
-import '../../core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/db/hive_manager.dart';
+import 'package:study_assistant_ai/core/di/di_manager.dart';
 import '../../core/errors/app_error_handler.dart';
 import 'application_state.dart';
 
 class ApplicationCubit extends Cubit<ApplicationState> {
   ApplicationCubit() : super(ApplicationState.initState());
 
-  Future<void> init() async {}
+  Future<void> init() async {
+    onAppInit();
+  }
 
   void onAppInit() {
     /// init error catcher
     AppErrorHandler.init();
-    _setPrimaryColor();
-  }
-
-  void _setPrimaryColor() {
-    DIManager.findDep<AppColorsController>().setPrimaryColor(Colors.white10);
+    DIManager.findDep<IHiveManger>().initHive();
   }
 
   refreshColor() {

@@ -5,4 +5,5 @@ import '../constansts/app_consts.dart';
 class SharedPrefs {
   final appLanguageCode = ReadWriteValue(
       'appLanguageCode${AppConsts.appName}', AppConsts.LANG_DEFAULT);
+  final firstTime = ReadWriteValue("firstTime${AppConsts.appName}", true);
 }
