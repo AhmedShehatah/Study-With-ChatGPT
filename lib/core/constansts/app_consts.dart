@@ -8,6 +8,6 @@ class AppConsts {
   static const LANG_EN = 'en';
   static const LANG_DEFAULT = 'en';
   static const chatGPTToken =
-      "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";
+      "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";
   static const jumpingDot = "this_is_jumbing_dot_indicator_for_loading";
 }

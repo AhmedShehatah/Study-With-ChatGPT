@@ -21,6 +21,7 @@ class Dimens {
   static double dialogBorderRadius = 15.w;
 
   static double bigBorderRadius = 25.w;
+  static double smallIconsSizee = 18.w;
   static double iconSize = 24.w;
   static double bigIconSize = 40.w;
   static final EdgeInsets itemHorizontalPadding_4 =

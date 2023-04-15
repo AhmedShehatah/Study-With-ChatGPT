@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 // ignore: depend_on_referenced_packages
@@ -85,6 +86,7 @@ class _NotesPageState extends State<NotesPage>
           mainAxisSpacing: 10,
           crossAxisSpacing: 10,
           itemBuilder: (context, index) {
+            index = notes.length - index - 1;
             var formattedDate =
                 DateFormat.yMMMd().format(notes[index].creationDate);
             Random random = Random();

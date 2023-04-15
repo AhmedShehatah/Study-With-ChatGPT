@@ -4,15 +4,15 @@ import 'package:logger/logger.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
 import 'package:study_assistant_ai/core/blocs/base_loading_state.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
-import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/utils/keyboard_utils/keyboard_visibilty/my_keyboard_visibilty.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/models/message.dart';
-import 'package:study_assistant_ai/models/note_model.dart';
 
 import '../../../blocs/chat/state/chat_state.dart';
 
 class MessageField extends StatelessWidget {
+  final _node = FocusNode();
   MessageField({super.key});
   final TextEditingController controller = TextEditingController();
   @override
@@ -31,6 +31,7 @@ class MessageField extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: TextField(
+              focusNode: _node,
               controller: controller,
               minLines: 1,
               maxLines: 3,
@@ -71,6 +72,7 @@ class MessageField extends StatelessWidget {
                   cubit.createCompletion(
                       model: "gpt-3.5-turbo", prompt: controller.text.trim());
                   controller.clear();
+                  _node.unfocus();
                 },
               );
             },
