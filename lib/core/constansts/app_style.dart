@@ -359,7 +359,7 @@ class AppStyle {
   // 18
   static TextStyle bigTitleStyle = TextStyle(
     fontSize: AppFontSize.fontSize_18,
-    color: DIManager.findDep<AppColorsController>().darkGreyTextColor,
+    // color: DIManager.findDep<AppColorsController>().darkGreyTextColor,
     fontWeight: FontWeight.w700,
   );
 

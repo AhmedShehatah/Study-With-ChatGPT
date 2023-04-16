@@ -1,3 +1,4 @@
+import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../models/note_model.dart';
@@ -25,10 +26,16 @@ class HiveManager implements IHiveManger {
   void saveNote(NoteModel note) {
     _notes.add(note);
   }
+
+  @override
+  List<NoteModel> getImportantNotes() {
+    return _notes.values.where((element) => element.isImportant).toList();
+  }
 }
 
 abstract class IHiveManger {
   void initHive();
   void saveNote(NoteModel note);
   List<NoteModel> getAllNotes();
+  List<NoteModel> getImportantNotes();
 }

@@ -13,9 +13,15 @@ class NotesRepo implements INotesRepo {
   void saveNote(NoteModel note) {
     _db.saveNote(note);
   }
+
+  @override
+  List<NoteModel> getImportantNotes() {
+    return _db.getImportantNotes();
+  }
 }
 
 abstract class INotesRepo {
   void saveNote(NoteModel note);
   List<NoteModel> getAllNotes();
+  List<NoteModel> getImportantNotes();
 }

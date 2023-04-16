@@ -13,4 +13,5 @@ class NotesCubit extends Cubit<NotesState> {
   }
 
   List<NoteModel> getAllNotes() => _repo.getAllNotes();
+  List<NoteModel> getImportantNotes() => _repo.getImportantNotes();
 }

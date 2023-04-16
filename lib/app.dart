@@ -54,11 +54,12 @@ class _AppState extends State<App> {
                     return DrawerOverAllWidget(child: widget);
                   }),
                   theme: ThemeData(
+                      brightness: Brightness.dark,
                       // Making Roboto Regular the default font for Project
                       fontFamily: 'Roboto',
                       primaryColor:
                           DIManager.findDep<AppColorsController>().primaryColor,
-                      colorScheme: ColorScheme.fromSwatch()
+                      colorScheme: const ColorScheme.dark()
                           .copyWith(
                               primary: DIManager.findDep<AppColorsController>()
                                   .primaryColor)

@@ -33,9 +33,7 @@ class DrawerWidget extends StatelessWidget {
       child: Container(
         // width: 0.8.sw,
         height: 1.0.sh,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
+        color: Colors.black87,
         child: Column(
           children: [
             const DrawerHeaderWidget(),

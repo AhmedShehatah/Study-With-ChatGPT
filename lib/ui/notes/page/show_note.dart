@@ -4,12 +4,21 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
+import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/errors/custom_error.dart';
 
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
+import 'package:study_assistant_ai/core/utils/ui_utils/custom_snack_bar.dart';
+import 'package:study_assistant_ai/models/note_model.dart';
+import 'package:study_assistant_ai/ui/notes/page/notes_page.dart';
+
+import '../../../core/validators/base_validator.dart';
+import '../../../core/validators/required_validator.dart';
 
 class ShowNote extends StatelessWidget {
   static const String routeName = "/show-note";
-
+  final _formKey = GlobalKey<FormState>();
   ShowNote({
     super.key,
   });
@@ -21,11 +30,11 @@ class ShowNote extends StatelessWidget {
   Widget build(BuildContext context) {
     var args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    titleController.text = args["notesData"].title;
-    bodyController.text = args["notesData"].body;
-    var formattedDate =
-        DateFormat.yMMMd().format(args["notesData"].creationDate);
-    var time = DateFormat.jm().format(args["notesData"].creationDate);
+    var note = args["notesData"] as NoteModel;
+    titleController.text = note.title;
+    bodyController.text = note.body;
+    var formattedDate = DateFormat.yMMMd().format(note.creationDate);
+    var time = DateFormat.jm().format(note.creationDate);
     return Scaffold(
         body: SafeArea(
           child: Container(
@@ -40,61 +49,69 @@ class ShowNote extends StatelessWidget {
                     IconButton(
                       color: Theme.of(context).colorScheme.background,
                       onPressed: () {
-                        Get.back();
+                        DIManager.findNavigator().pop();
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios_outlined,
                       ),
                     ),
-                    IconButton(
-                      color: Theme.of(context).colorScheme.background,
-                      onPressed: () {
-                        showDeleteDialog(context, args["notesData"]);
-                      },
-                      icon: const Icon(
-                        Icons.delete,
+                    if (!args['new'])
+                      IconButton(
+                        color: Theme.of(context).colorScheme.background,
+                        onPressed: () {
+                          showDeleteDialog(context, note);
+                        },
+                        icon: const Icon(
+                          Icons.delete,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text("$formattedDate at $time"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: titleController,
-                          maxLines: null,
-                          decoration: const InputDecoration.collapsed(
-                            hintText: "Title",
+                  child: Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text("$formattedDate at $time"),
+                          const SizedBox(
+                            height: 10,
                           ),
-                          style: const TextStyle(
-                            fontSize: 26.0,
-                            fontWeight: FontWeight.w500,
+                          TextFormField(
+                            controller: titleController,
+                            maxLines: null,
+                            decoration: const InputDecoration.collapsed(
+                              hintText: "Title",
+                            ),
+                            style: const TextStyle(
+                              fontSize: 26.0,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            validator: (value) => BaseValidator.validateValue(
+                                context, value, [RequiredValidator()], true),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          autofocus: true,
-                          controller: bodyController,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          decoration: const InputDecoration.collapsed(
-                            hintText: "Type something...",
+                          const SizedBox(
+                            height: 20,
                           ),
-                          style: const TextStyle(
-                            fontSize: 20.0,
+                          TextFormField(
+                            autofocus: true,
+                            controller: bodyController,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            decoration: const InputDecoration.collapsed(
+                              hintText: "Type something...",
+                            ),
+                            style: const TextStyle(
+                              fontSize: 20.0,
+                            ),
+                            validator: (value) => BaseValidator.validateValue(
+                                context, value, [RequiredValidator()], true),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -104,24 +121,33 @@ class ShowNote extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            if (titleController.text != args["notesData"].title ||
-                bodyController.text != args["notesData"].body) {
-              // Database().updateNote(authController.user.uid,
-              //     titleController.text, bodyController.text, noteData.id);
-              // Get.back();
-              // titleController.clear();
-              // bodyController.clear();
+            if (titleController.text != note.title ||
+                bodyController.text != note.body) {
+              if (_formKey.currentState!.validate()) {
+                note.title = titleController.text;
+                note.body = bodyController.text;
+                if (!args['new']) {
+                  note.save();
+                } else {
+                  DIManager.findDep<NotesCubit>().saveNote(note);
+                }
+                DIManager.findNavigator().offAll(NotesPage.routeName);
+              } else {
+                CustomSnackbar.showSnackbar("Note must have title and body");
+              }
             } else {
               showSameContentDialog(context);
             }
           },
           label: const Text("Save"),
-          icon: const Icon(Icons.save),
+          icon: const Icon(
+            Icons.save,
+          ),
         ));
   }
 }
 
-void showDeleteDialog(BuildContext context, noteData) {
+void showDeleteDialog(BuildContext context, NoteModel noteData) {
   // final AuthController authController = Get.find<AuthController>();
   showDialog(
     context: context,
@@ -142,9 +168,8 @@ void showDeleteDialog(BuildContext context, noteData) {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onPressed: () {
-              // Get.back();
-              // Database().delete(authController.user.uid, noteData.id);
-              // Get.back(closeOverlays: true);
+              noteData.delete();
+              DIManager.findNavigator().offAll(NotesPage.routeName);
             },
           ),
           TextButton(
@@ -153,7 +178,7 @@ void showDeleteDialog(BuildContext context, noteData) {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             onPressed: () {
-              // Navigator.of(context).pop();
+              DIManager.findNavigator().pop();
             },
           ),
         ],
