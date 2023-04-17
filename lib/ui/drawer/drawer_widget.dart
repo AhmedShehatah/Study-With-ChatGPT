@@ -8,6 +8,8 @@ import '../../../../core/utils/screen_utils/device_utils.dart';
 import '../../core/constansts/dimens.dart';
 import 'package:koukicons_jw/phoneChat.dart';
 import 'package:koukicons_jw/notebook2.dart';
+import 'package:koukicons_jw/bookmarkC.dart';
+import '../agenda/page/agenda_page.dart';
 import 'drawer_over_all.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -64,13 +66,24 @@ class DrawerWidget extends StatelessWidget {
           ListTile(
             leading: KoukiconsNotebook2(height: Dimens.iconSize),
             title: const Text('Notes'),
-            selected: drawerTab == OverallDrawerTabs.flashcards,
+            selected: drawerTab == OverallDrawerTabs.notes,
             onTap: () {
-              if (drawerTab == OverallDrawerTabs.flashcards) return;
+              if (drawerTab == OverallDrawerTabs.notes) return;
               DIManager.findNavigator()
                   .pushReplacementNamed(NotesPage.routeName);
             },
           ),
+          ListTile(
+            leading: KoukiconsBookmarkC(height: Dimens.iconSize),
+            title: const Text('Agenda'),
+            selected: drawerTab == OverallDrawerTabs.agenda,
+            onTap: () {
+              if (drawerTab == OverallDrawerTabs.agenda) return;
+              DIManager.findNavigator()
+                  .pushReplacementNamed(AgendaPage.routeName);
+            },
+          ),
+          const Divider()
         ],
       ),
     );

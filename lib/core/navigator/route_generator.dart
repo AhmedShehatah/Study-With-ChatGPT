@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
 import 'package:study_assistant_ai/ui/intro_screen/intro_screen.dart';
 
+import '../../ui/agenda/page/agenda_page.dart';
 import '../../ui/notes/page/notes_page.dart';
 import '../../ui/notes/page/show_note.dart';
 
@@ -43,6 +44,8 @@ class RouteGenerator {
         return const IntroScreen();
       case ShowNote.routeName:
         return ShowNote();
+      case AgendaPage.routeName:
+        return const AgendaPage();
       default:
         // settings = settings.copyWith(name: DefaultRoute.routeName);
         return const DefaultRoute();

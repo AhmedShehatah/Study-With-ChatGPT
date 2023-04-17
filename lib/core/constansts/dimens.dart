@@ -14,7 +14,7 @@ class Dimens {
   static double defaultBorderWidth = ScreenHelper.fromWidth55(0.35);
 
   static double cardBorderRadius = 10.w;
-  static double bottomSheetBorderRadius = 15.w;
+  static double bottomSheetBorderRadius = 20.w;
   static double dotsRadius = 4.r;
   static double textFormBorder = 10.w;
   static double defaultBorderRadius = 10.w;

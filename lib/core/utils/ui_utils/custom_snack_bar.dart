@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:study_assistant_ai/core/constansts/dimens.dart';
 
 import '../../constansts/app_colors.dart';
 import '../../di/di_manager.dart';

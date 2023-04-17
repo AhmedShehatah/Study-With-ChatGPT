@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
-import 'package:study_assistant_ai/core/errors/custom_error.dart';
 
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/core/utils/ui_utils/custom_snack_bar.dart';

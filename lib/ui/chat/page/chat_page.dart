@@ -13,7 +13,7 @@ import 'package:koukicons_jw/emptyTrash.dart';
 import '../../../blocs/chat/state/chat_state.dart';
 import '../../drawer/drawer_over_all.dart';
 import '../../drawer/drawer_widget.dart';
-import '../widgets/empty_list_widget.dart';
+import '../../common/widgets/empty_list_widget.dart';
 
 class ChatPage extends StatelessWidget {
   static const String routeName = "/chat-page";
@@ -64,25 +64,10 @@ class ChatPage extends StatelessWidget {
               bloc: DIManager.findDep<ChatCubit>(),
               builder: (context, state) {
                 if (DIManager.findDep<ChatCubit>().messages.isEmpty) {
-                  return const EmptyListWidget();
+                  return const EmptyListWidget(
+                    title: "No Messages Yet",
+                  );
                 }
-                // return ListView.builder(
-                //   itemBuilder: (context, idx) {
-                //     var message = DIManager.findDep<ChatCubit>().messages[idx];
-                //     return Align(
-                //       alignment: message.isSentByMe
-                //           ? Alignment.centerRight
-                //           : Alignment.centerLeft,
-                //       child: MessageWidget(
-                //         message: message,
-                //       ),
-                //     );
-                //   },
-                //   itemCount: DIManager.findDep<ChatCubit>().messages.length,
-                //   reverse: true,
-                //   padding: Dimens.textPadding,
-                // );
-
                 return GroupedListView<Message, DateTime>(
                   reverse: true,
                   order: GroupedListOrder.DESC,

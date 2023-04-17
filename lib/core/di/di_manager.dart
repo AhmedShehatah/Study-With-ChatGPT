@@ -4,9 +4,11 @@ import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
 import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
 import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/data/sources/chatpgt_remote_data_source.dart';
+import 'package:study_assistant_ai/repos/agenda_repo.dart';
 import 'package:study_assistant_ai/repos/chatgpt_repo.dart';
 import 'package:study_assistant_ai/repos/notes_repo.dart';
 
+import '../../blocs/agenda/agenda_cubit.dart';
 import '../../blocs/application/application_cubit.dart';
 
 import '../constansts/app_colors.dart';
@@ -24,6 +26,8 @@ class DIManager {
     _injectDep(
       AppNavigator(),
     );
+
+    // modules
     _injectDep(NetowrkModule.provideDio());
     _injectDep<IHiveManger>(HiveManager());
 
@@ -43,10 +47,12 @@ class DIManager {
     _injectDep<IChatGPTRepo>(ChatGPTRepo(
         findDep<IChatGPTRemoteDateSource>(), findDep<IHiveManger>()));
     _injectDep<INotesRepo>(NotesRepo(findDep<IHiveManger>()));
+    _injectDep<IAgendaRepo>(AgendaRepo(findDep<IHiveManger>()));
 
     /// BLOCs
     _injectDep(ChatCubit(findDep<IChatGPTRepo>()));
     _injectDep(NotesCubit(findDep<INotesRepo>()));
+    _injectDep(AgendaCubit(findDep<IAgendaRepo>()));
   }
 
   static T _injectDep<T extends Object>(T dependency) {

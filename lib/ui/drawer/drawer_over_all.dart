@@ -88,5 +88,6 @@ class _DrawerOverAllWidgetState extends State<DrawerOverAllWidget> {
 
 enum OverallDrawerTabs {
   chat,
-  flashcards,
+  notes,
+  agenda,
 }

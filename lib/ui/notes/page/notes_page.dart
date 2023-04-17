@@ -1,12 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
 import 'package:study_assistant_ai/core/constansts/app_font.dart';
-import 'package:study_assistant_ai/core/constansts/app_style.dart';
+import 'package:study_assistant_ai/core/constansts/dimens.dart';
 
 import 'package:study_assistant_ai/core/di/di_manager.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
@@ -16,6 +15,7 @@ import 'package:study_assistant_ai/ui/drawer/drawer_widget.dart';
 import 'package:study_assistant_ai/ui/notes/page/show_note.dart';
 
 import '../../../models/note_model.dart';
+import '../../common/widgets/empty_list_widget.dart';
 
 // ignore: must_be_immutable
 class NotesPage extends StatefulWidget {
@@ -59,6 +59,8 @@ class _NotesPageState extends State<NotesPage>
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimens.cardBorderRadius)),
         onPressed: () {
           DIManager.findNavigator().pushNamed(ShowNote.routeName, arguments: {
             "notesData": NoteModel(
@@ -86,9 +88,11 @@ class _NotesPageState extends State<NotesPage>
           },
         ),
       ),
-      drawer: const DrawerWidget(drawerTab: OverallDrawerTabs.flashcards),
+      drawer: const DrawerWidget(drawerTab: OverallDrawerTabs.notes),
       body: notes.isEmpty
-          ? _noNotesYet()
+          ? const EmptyListWidget(
+              title: "No Notes Yet!",
+            )
           : Container(
               padding: EdgeInsets.symmetric(
                 horizontal: ScreenHelper.fromWidth(2),
@@ -217,25 +221,6 @@ class _NotesPageState extends State<NotesPage>
                 },
               ),
             ),
-    );
-  }
-
-  Widget _noNotesYet() {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Image.asset(
-            'assets/images/note.png',
-            // height: 200.h,
-          ),
-          const VerticalPadding(3),
-          Text(
-            "No Notes Yet!",
-            style: TextStyle(fontSize: AppFontSize.fontSize_18),
-          )
-        ],
-      ),
     );
   }
 }

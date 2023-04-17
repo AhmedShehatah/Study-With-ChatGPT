@@ -17,15 +17,48 @@ class MessageWidget extends StatelessWidget {
   final Message message;
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 3,
-      shape: _setMessageShape(),
-      color: message.isSentByMe ? DIManager.findCC().primaryColor : null,
-      child: Padding(
-        padding: Dimens.cardInternalPadding,
-        child: (message.text == AppConsts.jumpingDot)
-            ? _loadingDots()
-            : _messageBody(context),
+    return InkWell(
+      onTap: message.isSentByMe
+          ? null
+          : () {
+              showDialog(
+                  context: context,
+                  builder: (cxt) {
+                    return Dialog(
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        InkWell(
+                          child: ListTile(
+                            title: const Text("Save To Notes"),
+                            leading: KoukiconsSave(height: Dimens.iconSize),
+                          ),
+                          onTap: () {
+                            DIManager.findDep<NotesCubit>().saveNote(NoteModel(
+                                id: 0,
+                                title: "No Title",
+                                body: message.text,
+                                creationDate: DateTime.now()));
+                            DIManager.findNavigator().pop();
+                            CustomSnackbar.showSnackbar("Saved");
+                          },
+                        ),
+                        // ListTile(
+                        //   title: const Text("Share"),
+                        //   leading: KoukiconsShare2(height: Dimens.iconSize),
+                        // )
+                      ]),
+                    );
+                  });
+            },
+      child: Card(
+        elevation: 3,
+        shape: _setMessageShape(),
+        color: message.isSentByMe ? DIManager.findCC().primaryColor : null,
+        child: Padding(
+          padding: Dimens.cardInternalPadding,
+          child: (message.text == AppConsts.jumpingDot)
+              ? _loadingDots()
+              : _messageBody(context),
+        ),
       ),
     );
   }
@@ -71,37 +104,6 @@ class MessageWidget extends StatelessWidget {
   }
 
   Widget _botMessage(BuildContext context) {
-    return InkWell(
-      child: Text(message.text),
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (cxt) {
-              return Dialog(
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  InkWell(
-                    child: ListTile(
-                      title: const Text("Save To Notes"),
-                      leading: KoukiconsSave(height: Dimens.iconSize),
-                    ),
-                    onTap: () {
-                      DIManager.findDep<NotesCubit>().saveNote(NoteModel(
-                          id: 0,
-                          title: "No Title",
-                          body: message.text,
-                          creationDate: DateTime.now()));
-                      DIManager.findNavigator().pop();
-                      CustomSnackbar.showSnackbar("Saved");
-                    },
-                  ),
-                  ListTile(
-                    title: const Text("Share"),
-                    leading: KoukiconsShare2(height: Dimens.iconSize),
-                  )
-                ]),
-              );
-            });
-      },
-    );
+    return Text(message.text);
   }
 }
