@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:study_assistant_ai/blocs/agenda/agenda_cubit.dart';
 import 'package:study_assistant_ai/core/constansts/app_style.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
@@ -10,6 +11,8 @@ import 'package:study_assistant_ai/models/agenda_model.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_widget.dart';
 import 'package:intl/intl.dart';
+import '../../../core/ads/ads_manager.dart';
+import '../../../core/connectivity/network_connectivity.dart';
 import '../../../core/constansts/dimens.dart';
 import '../../../core/validators/base_validator.dart';
 import '../../../core/validators/required_validator.dart';
@@ -44,6 +47,12 @@ class _AgendaPageState extends State<AgendaPage> {
         ),
       ),
       body: const EventsList(),
+      bottomNavigationBar:
+          DIManager.findDep<NetworkConnectivity>().isConnected()
+              ? SizedBox(
+                  height: ScreenHelper.fromHeight(8),
+                  child: AdWidget(ad: AdsManger.loadBannerAd()))
+              : null,
     );
   }
 }

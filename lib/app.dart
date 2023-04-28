@@ -1,8 +1,10 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:study_assistant_ai/core/connectivity/network_connectivity.dart';
 import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/core/shared_prefs/shared_prefs.dart';
 import 'package:study_assistant_ai/ui/chat/page/chat_page.dart';
@@ -84,6 +86,10 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     DIManager.findAC().init();
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult event) {
+      DIManager.findDep<NetworkConnectivity>().checkConnectivity(event);
+      setState(() {});
+    });
   }
 
   @override

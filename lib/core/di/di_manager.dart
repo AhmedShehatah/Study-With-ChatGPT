@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
 import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
+import 'package:study_assistant_ai/core/connectivity/network_connectivity.dart';
 import 'package:study_assistant_ai/core/db/hive_manager.dart';
 import 'package:study_assistant_ai/data/sources/chatpgt_remote_data_source.dart';
 import 'package:study_assistant_ai/repos/agenda_repo.dart';
@@ -30,6 +31,8 @@ class DIManager {
     // modules
     _injectDep(NetowrkModule.provideDio());
     _injectDep<IHiveManger>(HiveManager());
+
+    _injectDep(NetworkConnectivity());
 
     _injectDep(
       AppColorsController(),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+// import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
+import 'package:study_assistant_ai/core/ads/ads_manager.dart';
 import 'package:study_assistant_ai/core/constansts/app_consts.dart';
 import 'package:study_assistant_ai/core/constansts/app_style.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/models/message.dart';
 import 'package:study_assistant_ai/ui/chat/widgets/message_field.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -59,6 +63,9 @@ class ChatPage extends StatelessWidget {
       ),
       body: Column(
         children: [
+          SizedBox(
+              height: ScreenHelper.fromHeight(8),
+              child: AdWidget(ad: AdsManger.loadBannerAd())),
           Expanded(
             child: BlocBuilder<ChatCubit, ChatState>(
               bloc: DIManager.findDep<ChatCubit>(),

@@ -1,9 +1,12 @@
 import 'dart:math';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 import 'package:study_assistant_ai/blocs/notes/cubit/notes_cubit.dart';
+import 'package:study_assistant_ai/core/connectivity/network_connectivity.dart';
 import 'package:study_assistant_ai/core/constansts/app_font.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
 
@@ -14,6 +17,7 @@ import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_widget.dart';
 import 'package:study_assistant_ai/ui/notes/page/show_note.dart';
 
+import '../../../core/ads/ads_manager.dart';
 import '../../../models/note_model.dart';
 import '../../common/widgets/empty_list_widget.dart';
 
@@ -43,10 +47,16 @@ class _NotesPageState extends State<NotesPage>
   ];
 
   late TabController _tabs;
+  var _connection = false;
   @override
   void initState() {
     super.initState();
-
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult event) {
+      DIManager.findDep<NetworkConnectivity>().checkConnectivity(event);
+      setState(() {
+        _connection = (event != ConnectivityResult.none);
+      });
+    });
     _tabs = TabController(length: 2, vsync: this);
   }
 
@@ -221,6 +231,12 @@ class _NotesPageState extends State<NotesPage>
                 },
               ),
             ),
+      bottomNavigationBar:
+          DIManager.findDep<NetworkConnectivity>().isConnected()
+              ? SizedBox(
+                  height: ScreenHelper.fromHeight(8),
+                  child: AdWidget(ad: AdsManger.loadBannerAd()))
+              : null,
     );
   }
 }
