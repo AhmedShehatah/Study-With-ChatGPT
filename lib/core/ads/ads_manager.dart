@@ -1,15 +1,23 @@
 import 'dart:async';
 
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:logger/logger.dart';
+
+import '../enums/interstitial_enum.dart';
+import '../enums/screens_enum.dart';
 
 class AdsManger {
-  static const bool _isTestMode = true;
-  static String get _bannerID {
+  static const bool _isTestMode = false;
+  static String _bannerID(ScreensEnum screen) {
     if (_isTestMode) {
       return 'ca-app-pub-3940256099942544/6300978111';
     }
-    return "ca-app-pub-7453338056341647/4345936866";
+    if (screen == ScreensEnum.chatScreen) {
+      return "ca-app-pub-7453338056341647/4345936866";
+    } else if (screen == ScreensEnum.notesScreen) {
+      return "ca-app-pub-7453338056341647/7522441142";
+    } else {
+      return "ca-app-pub-7453338056341647/7347961574";
+    }
   }
 
   static String get _rewardID {
@@ -19,25 +27,32 @@ class AdsManger {
     return "ca-app-pub-7453338056341647/4848785159";
   }
 
-  static BannerAd loadBannerAd() {
+  static String _interstitialID(InterStitialEnum pos) {
+    if (_isTestMode) {
+      return "ca-app-pub-3940256099942544/1033173712";
+    }
+    if (pos == InterStitialEnum.navigation) {
+      return "ca-app-pub-7453338056341647/9873272310";
+    } else if (pos == InterStitialEnum.notesAdd) {
+      return "ca-app-pub-7453338056341647/6481602466";
+    } else if (pos == InterStitialEnum.chatSend) {
+      return "ca-app-pub-7453338056341647/7980223252";
+    } else {
+      //agenda
+      return "ca-app-pub-7453338056341647/8689797556";
+    }
+  }
+
+  static BannerAd loadBannerAd(ScreensEnum screen) {
     return BannerAd(
-      adUnitId: _bannerID,
+      adUnitId: _bannerID(screen),
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
-        // Called when an ad is successfully received.
         onAdLoaded: (ad) {},
-        // Called when an ad request failed.
         onAdFailedToLoad: (ad, err) {
-          // Dispose the ad here to free resources.
           ad.dispose();
         },
-        // Called when an ad opens an overlay that covers the screen.
-        onAdOpened: (Ad ad) {},
-        // Called when an ad removes an overlay that covers the screen.
-        onAdClosed: (Ad ad) {},
-        // Called when an impression occurs on the ad.
-        onAdImpression: (Ad ad) {},
       ),
     )..load();
   }
@@ -48,12 +63,26 @@ class AdsManger {
         adUnitId: _rewardID,
         request: const AdRequest(),
         rewardedAdLoadCallback: RewardedAdLoadCallback(
-          // Called when an ad is successfully received.
           onAdLoaded: (ad) {
-            // Keep a reference to the ad so you can show it later.
             completer.complete(ad);
           },
-          // Called when an ad request failed.
+          onAdFailedToLoad: (LoadAdError error) {
+            completer.complete(null);
+          },
+        ));
+    return completer.future;
+  }
+
+  static Future<InterstitialAd?> loadInterstitialAd(
+      InterStitialEnum pos) async {
+    Completer<InterstitialAd?> completer = Completer<InterstitialAd?>();
+    await InterstitialAd.load(
+        adUnitId: _interstitialID(pos),
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+          onAdLoaded: (ad) {
+            completer.complete(ad);
+          },
           onAdFailedToLoad: (LoadAdError error) {
             completer.complete(null);
           },

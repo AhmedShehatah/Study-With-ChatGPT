@@ -14,6 +14,7 @@ import 'package:intl/intl.dart';
 import '../../../core/ads/ads_manager.dart';
 import '../../../core/connectivity/network_connectivity.dart';
 import '../../../core/constansts/dimens.dart';
+import '../../../core/enums/screens_enum.dart';
 import '../../../core/validators/base_validator.dart';
 import '../../../core/validators/required_validator.dart';
 import '../widget/events_list.dart';
@@ -51,7 +52,8 @@ class _AgendaPageState extends State<AgendaPage> {
           DIManager.findDep<NetworkConnectivity>().isConnected()
               ? SizedBox(
                   height: ScreenHelper.fromHeight(8),
-                  child: AdWidget(ad: AdsManger.loadBannerAd()))
+                  child: AdWidget(
+                      ad: AdsManger.loadBannerAd(ScreensEnum.agendaScreen)))
               : null,
     );
   }

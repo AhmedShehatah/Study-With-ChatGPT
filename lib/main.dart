@@ -7,7 +7,6 @@ import 'core/errors/app_error_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // MobileAds.instance.initialize();
   await DIManager.initDI();
   MobileAds.instance.initialize();
   AppErrorHandler.dartErrorCatcher(() {

@@ -15,6 +15,7 @@ import 'package:grouped_list/grouped_list.dart';
 import 'package:study_assistant_ai/ui/chat/widgets/message_widget.dart';
 import 'package:koukicons_jw/emptyTrash.dart';
 import '../../../blocs/chat/state/chat_state.dart';
+import '../../../core/enums/screens_enum.dart';
 import '../../drawer/drawer_over_all.dart';
 import '../../drawer/drawer_widget.dart';
 import '../../common/widgets/empty_list_widget.dart';
@@ -65,7 +66,8 @@ class ChatPage extends StatelessWidget {
         children: [
           SizedBox(
               height: ScreenHelper.fromHeight(8),
-              child: AdWidget(ad: AdsManger.loadBannerAd())),
+              child:
+                  AdWidget(ad: AdsManger.loadBannerAd(ScreensEnum.chatScreen))),
           Expanded(
             child: BlocBuilder<ChatCubit, ChatState>(
               bloc: DIManager.findDep<ChatCubit>(),
@@ -100,7 +102,7 @@ class ChatPage extends StatelessWidget {
               },
             ),
           ),
-          MessageField(),
+          const MessageField(),
         ],
       ),
     );

@@ -37,6 +37,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   connectivity_plus: ^3.0.5
   progress_dialog_null_safe: ^1.0.7
+
   # firebase_admob: ^0.11.2
 
 dev_dependencies:
@@ -45,6 +46,13 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/logo.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
 flutter:
   uses-material-design: true

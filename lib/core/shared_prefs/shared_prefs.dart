@@ -9,4 +9,9 @@ class SharedPrefs {
 
   final chatRewardedCount =
       ReadWriteValue("chatRewardedCount${AppConsts.appName}", 0);
+  final navigationAd = ReadWriteValue("NavigationAd${AppConsts.appName}", 0);
+  final chatClickCount =
+      ReadWriteValue("chatClickCount${AppConsts.appName}", 0);
+  final notesClickCount =
+      ReadWriteValue("notesClickCount${AppConsts.appName}", 0);
 }

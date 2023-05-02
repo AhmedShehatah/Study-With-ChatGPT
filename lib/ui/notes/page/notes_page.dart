@@ -11,6 +11,7 @@ import 'package:study_assistant_ai/core/constansts/app_font.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
 
 import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/enums/interstitial_enum.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/core/utils/ui_utils/vertical_padding.dart';
 import 'package:study_assistant_ai/ui/drawer/drawer_over_all.dart';
@@ -18,6 +19,8 @@ import 'package:study_assistant_ai/ui/drawer/drawer_widget.dart';
 import 'package:study_assistant_ai/ui/notes/page/show_note.dart';
 
 import '../../../core/ads/ads_manager.dart';
+import '../../../core/enums/screens_enum.dart';
+import '../../../core/shared_prefs/shared_prefs.dart';
 import '../../../models/note_model.dart';
 import '../../common/widgets/empty_list_widget.dart';
 
@@ -32,6 +35,23 @@ class NotesPage extends StatefulWidget {
 
 class _NotesPageState extends State<NotesPage>
     with SingleTickerProviderStateMixin {
+  InterstitialAd? interstitialAd;
+
+  void loadAd() async {
+    interstitialAd =
+        await AdsManger.loadInterstitialAd(InterStitialEnum.notesAdd);
+  }
+
+  void showAd() {
+    final prefs = DIManager.findDep<SharedPrefs>().notesClickCount;
+    if (interstitialAd != null && prefs.val % 2 == 0 && prefs.val > 0) {
+      interstitialAd!.show();
+      prefs.val = 0;
+    } else {
+      prefs.val++;
+    }
+  }
+
   List<NoteModel> notes = [];
 
   final lightColors = [
@@ -51,6 +71,7 @@ class _NotesPageState extends State<NotesPage>
   @override
   void initState() {
     super.initState();
+    loadAd();
     Connectivity().onConnectivityChanged.listen((ConnectivityResult event) {
       DIManager.findDep<NetworkConnectivity>().checkConnectivity(event);
       setState(() {
@@ -72,6 +93,7 @@ class _NotesPageState extends State<NotesPage>
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Dimens.cardBorderRadius)),
         onPressed: () {
+          showAd();
           DIManager.findNavigator().pushNamed(ShowNote.routeName, arguments: {
             "notesData": NoteModel(
                 body: '', id: 0, title: '', creationDate: DateTime.now()),
@@ -231,12 +253,13 @@ class _NotesPageState extends State<NotesPage>
                 },
               ),
             ),
-      bottomNavigationBar:
-          DIManager.findDep<NetworkConnectivity>().isConnected()
-              ? SizedBox(
-                  height: ScreenHelper.fromHeight(8),
-                  child: AdWidget(ad: AdsManger.loadBannerAd()))
-              : null,
+      bottomNavigationBar: DIManager.findDep<NetworkConnectivity>()
+              .isConnected()
+          ? SizedBox(
+              height: ScreenHelper.fromHeight(8),
+              child:
+                  AdWidget(ad: AdsManger.loadBannerAd(ScreensEnum.notesScreen)))
+          : null,
     );
   }
 }

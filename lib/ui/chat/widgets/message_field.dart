@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:logger/logger.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:study_assistant_ai/blocs/chat/cubit/chat_cubit.dart';
@@ -8,6 +9,7 @@ import 'package:study_assistant_ai/core/blocs/base_loading_state.dart';
 import 'package:study_assistant_ai/core/constansts/app_font.dart';
 import 'package:study_assistant_ai/core/constansts/dimens.dart';
 import 'package:study_assistant_ai/core/di/di_manager.dart';
+import 'package:study_assistant_ai/core/enums/interstitial_enum.dart';
 import 'package:study_assistant_ai/core/shared_prefs/shared_prefs.dart';
 import 'package:study_assistant_ai/core/utils/screen_utils/device_utils.dart';
 import 'package:study_assistant_ai/core/utils/ui_utils/custom_snack_bar.dart';
@@ -23,6 +25,29 @@ class MessageField extends StatefulWidget {
 }
 
 class _MessageFieldState extends State<MessageField> {
+  InterstitialAd? interstitialAd;
+
+  @override
+  void initState() {
+    super.initState();
+    loadAd();
+  }
+
+  void loadAd() async {
+    interstitialAd =
+        await AdsManger.loadInterstitialAd(InterStitialEnum.chatSend);
+  }
+
+  void showAd() {
+    final prefs = DIManager.findDep<SharedPrefs>().chatClickCount;
+    if (interstitialAd != null && prefs.val % 4 == 0 && prefs.val > 0) {
+      interstitialAd!.show();
+      prefs.val = 0;
+    } else {
+      prefs.val++;
+    }
+  }
+
   final _node = FocusNode();
 
   final TextEditingController controller = TextEditingController();
@@ -90,6 +115,7 @@ class _MessageFieldState extends State<MessageField> {
     if (countOfMessages != 0 && countOfMessages % 3 == 0) {
       showCustomDialog();
     } else {
+      showAd();
       final cubit = DIManager.findDep<ChatCubit>();
       cubit.sendMessage(
         Message(
