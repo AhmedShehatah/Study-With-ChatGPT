@@ -1,16 +1,5 @@
-# study_assistant_ai
+# Study With ChatGPT
 
-A new Flutter project.
+[Download on Google Play](https://play.google.com/store/apps/details?id=com.ahmed.shehatah.ai.study_assistant_ai&pli=1)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Study With ChatGPT is a Google Play app designed to assist students in their studies. The app features a chatbot named ChatGPT, which can answer a wide range of academic questions and provide helpful study tips. Additionally, the app allows users to take notes and create events in the agenda, helping them stay organized and on top of their coursework. With Study With ChatGPT, students can access helpful resources and keep track of their academic progress all in one convenient place. 
